@@ -8,6 +8,7 @@ export const PREFIXES = {
     PERCENT: 'percent',
     DEPOSIT: 'deposit',
     TABLE: 'table-parent-team',
+    CAROUSEL: "carousel-team"
 };
 
 
