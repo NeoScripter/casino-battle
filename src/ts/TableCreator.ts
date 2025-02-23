@@ -24,6 +24,8 @@ export class TableCreator {
             throw new Error('The table is not found');
         }
 
+        table.innerHTML = "";
+
         table.appendChild(this.createFirstColumn(team));
         table.appendChild(this.createSecondColumn(team));
         table.appendChild(this.createThirdColumn(team));

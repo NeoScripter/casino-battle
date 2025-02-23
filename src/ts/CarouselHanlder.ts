@@ -19,7 +19,7 @@ export class CarouselHandler {
     private teamNumber: number;
     private parent: HTMLElement | null;
     private figure: HTMLElement | null;
-    private images: HTMLCollection | null;
+    public images: HTMLCollection | null;
     private imageLength: number;
     private gap: number;
     private theta: number;
@@ -56,8 +56,20 @@ export class CarouselHandler {
         this.createCarousel(); 
         this.setupCarousel();
         this.initResize();
-        this.setupAutoRotateButton();
     }
+
+    getCurrentImagePath() {
+        if (!this.images || this.imageLength === 0) return;
+    
+        const div = this.images[this.currImage % this.imageLength] as HTMLElement;
+        if (!div) return;
+    
+        const img = div.querySelector("img") as HTMLImageElement | null;
+        if (!img) return;
+    
+        return img.src;
+    }
+    
 
     createCarousel() {
         if (!this.parent || !this.figure) {
@@ -129,14 +141,6 @@ export class CarouselHandler {
         }
 
         this.figure.style.transform = `rotateY(${imageIndex * -this.theta}rad)`;
-        console.log("✅ Rotating carousel to:", imageIndex * -this.theta, "radians");
-    }
-
-    setupAutoRotateButton() {
-        const rotateButton = document.getElementById(`rotate-btn`);
-        if (!rotateButton) return;
-
-        rotateButton.addEventListener('click', () => this.startInfiniteRotation());
     }
 
     startInfiniteRotation() {
