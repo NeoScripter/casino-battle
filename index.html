@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + TS</title>
+    </head>
+    <body class="overflow-x-hidden">
+        <div class="mx-auto max-w-[1900px] px-[2%]">
+            <h1
+                class="text-white text-center text-4xl mx-auto w-max px-2 font-bold mt-1 mb-12 text-shadow"
+            >
+                Баттл Команд
+            </h1>
+
+            <div class="flex items-center justifiy-between gap-12">
+                <div class="rounded-lg p-10 bg-black/60 w-1/2 mb-15 overflow-x-hidden">
+                    <img
+                        src="/images/teams/youtube.png"
+                        alt=""
+                        class="w-50 mx-auto mb-10 h-20 object-contain"
+                    />
+
+                    <h2 class="text-white text-center text-5xl font-bold mb-12">
+                        Команда YouTube
+                    </h2>
+
+                    <div class="text-white text-7xl mb-16">Carousel</div>
+
+                    <div class="relative h-60">
+                        <div
+                            class="column-row border-r border-table-border bg-white/20 text-white font-bold"
+                            id="table-parent-team-1"
+                        ></div>
+                    </div>
+
+                    <div
+                        class="text-white font-bold mt-4 text-5xl uppercase text-center"
+                    >
+                        Общий балл: 3
+                    </div>
+                </div>
+
+                <button
+                    class="bg-play-btn transition-colors duration-300 cursor-pointer hover:bg-play-btn-hover rounded-lg flex items-center justify-center px-12 py-6 text-white text-3xl"
+                >
+                    VS
+                </button>
+
+                <div class="rounded-lg p-10 bg-black/60 w-1/2 mb-15 overflow-x-hidden">
+                  <img
+                      src="/images/teams/kick.png"
+                      alt=""
+                      class="w-50 mx-auto mb-10 h-20 object-contain"
+                  />
+
+                  <h2 class="text-white text-center text-5xl font-bold mb-12">
+                      Команда Kick
+                  </h2>
+
+                  <div class="text-white text-7xl mb-16">Carousel</div>
+
+                  <div class="relative h-60">
+                      <div
+                          class="column-row border-r border-table-border bg-white/20 text-white font-bold"
+                          id="table-parent-team-2"
+                      ></div>
+                  </div>
+
+                  <div
+                      class="text-white font-bold mt-4 text-5xl uppercase text-center"
+                  >
+                      Общий балл: 3
+                  </div>
+              </div>
+            </div>
+        </div>
+        <video
+            autoplay
+            muted
+            loop
+            class="fixed w-full h-full inset-0 -z-10 object-cover"
+        >
+            <source src="/images/bg-video.mp4" type="video/mp4" />
+            Ваш браузер не поддерживает видео.
+        </video>
+        <script type="module" src="/src/main.ts"></script>
+    </body>
+</html>
+
+<template id="regular-cell">
+    <div class="cell">Балл: 1</div>
+</template>
+
+<template id="head-cell">
+    <div class="cell bg-white/20 uppercase">Депозит</div>
+</template>
+
+<template id="text-input-field">
+    <div class="cell">
+        <input
+            type="text"
+            placeholder="Участник 3"
+            class="p-2 bg-white/20 w-4/5 mx-auto text-center rounded-md bg-transparent border border-slate-200 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+        />
+    </div>
+</template>
+
+<template id="checkbox-input-field">
+    <div class="cell">
+        <div class="inline-flex items-center">
+            <label class="flex items-center cursor-pointer relative">
+                <input
+                    type="checkbox"
+                    class="peer h-7 w-7 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-900 checked:border-slate-900"
+                />
+                <span
+                    class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        stroke="currentColor"
+                        stroke-width="1"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                        ></path>
+                    </svg>
+                </span>
+            </label>
+        </div>
+    </div>
+</template>

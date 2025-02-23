@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-display: 'Arial', 'sans-serif';
+    --breakpoint-3xl: 1700px;
+    --color-table-border: oklch(44.95% 0 0);
+    --color-play-btn-hover: oklch(42.09% 0.2 328.3634 / 80%);
+    --color-play-btn: oklch(42.09% 0.193453 328.3634 / 60%);
+    --color-table-head-bg: oklch(53.11% 0.14 288.11 / 30%);
+    --color-table-bg: oklch(100% 0 0 / 10%);
+    /* ... */
+}
+
+.text-shadow {
+    text-shadow: -1px 2px 18px rgba(0, 0, 0, 0.8);
+}
+
+.column-row {
+    @apply grid grid-cols-[2fr_1fr_1fr_1fr_1fr] border-b border-table-border ;
+}
+
+.cell {
+  @apply flex items-center justify-center h-15 p-2 border-r border-b border-table-border border-collapse;
+}
