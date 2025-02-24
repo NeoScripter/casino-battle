@@ -83,7 +83,7 @@ export class TableHandler {
             const result = Math.ceil(bonusInputResult / betInputResult);
 
             this.score = result;
-            this.price = Math.ceil(bonusInputResult - betInputResult);
+            this.price = Math.ceil(bonusInputResult - bonusPriceInputResult);
 
             this.showXScoreDiv(result.toString());
         })
