@@ -1,4 +1,4 @@
-import { PREFIXES } from './SelectorConcatenator';
+import { PREFIXES, SelectorConcatenator } from './SelectorConcatenator';
 import { cIds } from './TableCreator';
 
 const PATH = '/images/carousel/';
@@ -14,6 +14,8 @@ const IMAGE_NAMES = [
     'olympus',
     'sugar',
 ];
+
+const concatenator = new SelectorConcatenator();
 
 export class CarouselHandler {
     private teamNumber: number;
@@ -164,6 +166,7 @@ export class CarouselHandler {
             if (elapsed >= slowDownDuration) {
                 clearInterval(this.rotationInterval!); //  Stop rotation
                 this.isRotating = false;
+                this.showWinner();
             } else {
                 clearInterval(this.rotationInterval!);
                 this.rotationInterval = window.setInterval(rotationStep, speed);
@@ -174,7 +177,35 @@ export class CarouselHandler {
         this.rotationInterval = window.setInterval(rotationStep, speed);
     }
 
-    
+    showWinner() {
+        const select = concatenator.getWinnerImgContainer(this.teamNumber);
+        const winnerImgContainer = document.getElementById(select);
+
+        if (winnerImgContainer == null) return;
+
+        const img = winnerImgContainer.querySelector('img');
+
+        if (img == null) return;
+
+        const newImgPath = this.getCurrentImagePath();
+
+        if (newImgPath == null) return;
+        img.src = newImgPath;
+
+        winnerImgContainer.classList.remove('!hidden');
+        this.parent?.classList.add('!hidden');
+    }
+
+    resetDisplay() {
+        const select = concatenator.getWinnerImgContainer(this.teamNumber);
+        const winnerImgContainer = document.getElementById(select);
+
+        if (winnerImgContainer == null) return;
+
+
+        winnerImgContainer.classList.add('!hidden');
+        this.parent?.classList.remove('!hidden');
+    }
 
     initResize() {
         window.addEventListener('resize', () => {

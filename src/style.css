@@ -19,9 +19,22 @@
     @apply grid grid-cols-[2fr_1fr_1fr_1fr_1fr] border-b border-table-border;
 }
 
+.even-cols {
+    @apply grid grid-cols-[1fr_1fr_1fr_0.3fr] border-b border-table-border;
+}
+
 .cell {
     @apply flex items-center justify-center h-15 p-2 border-r border-b border-table-border border-collapse;
 }
+
+.winner {
+    @apply !bg-green-800/50;
+}
+
+.loser {
+    @apply !bg-red-800/50;
+}
+
 
 .carousel-3d {
     padding: 20px;
