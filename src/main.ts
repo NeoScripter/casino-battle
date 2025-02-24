@@ -6,6 +6,9 @@ import { TableHandler } from './ts/TableHanlder';
 const IDS = {
     BTN_LAUNCH_CAROUSEL: 'rotate-btn',
     BTN_RESET: 'reset-btn',
+    BTN_RESULTS: 'results-btn',
+    RESULT_POPUP: 'result-popup',
+    RESULT_POPUP_CELL: 'result-popup-cell',
 };
 
 const tableCreator = new TableCreator();
@@ -53,20 +56,25 @@ class GameHanlder {
     }
 
     setupBtnEventListener() {
-        const btn = document.getElementById(IDS.BTN_LAUNCH_CAROUSEL);
+        const btn = document.getElementById(
+            IDS.BTN_LAUNCH_CAROUSEL
+        ) as HTMLButtonElement;
         const resetBtn = document.getElementById(IDS.BTN_RESET);
         const calculateBtnOne = document.getElementById('calculate-team-1');
         const calculateBtnTwo = document.getElementById('calculate-team-2');
+        const resultBtn = document.getElementById(IDS.BTN_RESULTS);
 
         if (
             btn == null ||
             resetBtn == null ||
             calculateBtnOne == null ||
-            calculateBtnTwo == null
+            calculateBtnTwo == null ||
+            resultBtn == null
         )
-            return;
+            throw new Error('One of the buttons is undefined');
 
         btn.addEventListener('click', () => {
+            btn.disabled = true;
             tableHanlderOne.resetCalculateInputFields();
             tableHanlderTwo.resetCalculateInputFields();
             this.resetWinner();
@@ -75,14 +83,16 @@ class GameHanlder {
             tableHanlderTwo.showCalculateResult();
             tableHanlderOne.saveParticipantsNames();
             tableHanlderTwo.saveParticipantsNames();
-            setTimeout(() => this.showRestartBtn(), 10000)
+            setTimeout(() => {
+                this.showRestartBtn();
+                btn.disabled = false;
+            }, 10000);
         });
 
         resetBtn.addEventListener('click', () => {
             this.cleanup();
             tableHanlderOne.fullReset();
             tableHanlderTwo.fullReset();
-
         });
 
         calculateBtnTwo.addEventListener('click', () => {
@@ -92,6 +102,65 @@ class GameHanlder {
         calculateBtnOne.addEventListener('click', () => {
             setTimeout(() => this.assignWinner(), 100);
         });
+
+        resultBtn.addEventListener("click", () => this.showResultPopup());
+
+        const resultPopup = document.getElementById(IDS.RESULT_POPUP);
+        
+        if (resultPopup == null)
+            throw new Error('result popup is undefined');
+
+        resultPopup.addEventListener("click", (event) => {
+            if (event.target !== event.currentTarget) return; 
+        
+            resultPopup.style.opacity = "0%";
+            setTimeout(() => {
+                resultPopup.classList.add("hidden");
+                resultPopup.style.opacity = "100%";
+            }, 500);
+        });
+    }
+
+    showResultPopup() {
+        const resultPopup = document.getElementById(IDS.RESULT_POPUP);
+
+        const template = document.getElementById(
+            IDS.RESULT_POPUP_CELL
+        ) as HTMLTemplateElement;
+
+        
+        if (resultPopup == null || template == null)
+            throw new Error('result popup is undefined');
+        
+        const resultPopupChild = resultPopup.querySelector('div');
+        if (resultPopupChild == null)
+            throw new Error('result popup child is undefined');
+        resultPopupChild.innerHTML = '';
+
+        this.memo.forEach((value, key) => {
+            console.log(value, key)
+            const clonedKeyContent = template.content.cloneNode(
+                true
+            ) as DocumentFragment;
+
+            const keyDiv = clonedKeyContent.querySelector('div.text-center');
+            if (keyDiv == null) return;
+            keyDiv.textContent = key;
+            resultPopupChild.appendChild(clonedKeyContent);
+
+            const clonedValueContent = template.content.cloneNode(
+                true
+            ) as DocumentFragment;
+
+            const valueDiv = clonedValueContent.querySelector('div.text-center');
+            if (valueDiv == null) return;
+            valueDiv.textContent = value;
+            resultPopupChild.appendChild(clonedValueContent);
+        });
+
+        resultPopup.style.opacity = "0%";
+        resultPopup.classList.remove('hidden');
+        resultPopup.style.opacity = "100%";
     }
 
     cleanup() {
@@ -154,7 +223,10 @@ class GameHanlder {
             const participant = participants[i];
             const percent = percents[i];
             console.log(participant, price, percent);
-            this.memo.set(participant, Math.floor((price / 100) * percent).toString());
+            this.memo.set(
+                participant,
+                Math.floor((price / 100) * percent).toString()
+            );
         }
     }
 

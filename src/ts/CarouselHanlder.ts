@@ -85,6 +85,7 @@ export class CarouselHandler {
             const div = document.createElement('div');
             const img = document.createElement('img');
             img.src = cIds(PATH, imageName, '.png');
+            img.classList.add('border-3', 'border-white')
             div.appendChild(img);
             this.figure.appendChild(div);
         }
@@ -189,11 +190,19 @@ export class CarouselHandler {
 
         const newImgPath = this.getCurrentImagePath();
 
-        if (newImgPath == null) return;
+        if (newImgPath == null || this.parent == null) return;
         img.src = newImgPath;
 
         winnerImgContainer.classList.remove('!hidden');
-        this.parent?.classList.add('!hidden');
+        
+        this.parent.classList.add('absolute');
+        this.parent.style.opacity = "0%";
+        setTimeout(() => {
+            if (this.parent == null) return;
+            this.parent.classList.add('!hidden');
+            this.parent.style.opacity = "100%";
+            this.parent.classList.remove('absolute');
+        }, 500)
     }
 
     resetDisplay() {

@@ -28,12 +28,26 @@
 }
 
 .winner {
-    @apply !bg-green-800/50;
+    @apply !bg-green-800/70;
 }
 
 .loser {
-    @apply !bg-red-800/50;
+    @apply !bg-red-800/70;
 }
+
+@keyframes fade-in {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+.fade-in {
+    animation: fade-in 500ms ease-in-out;
+}
+
 
 
 .carousel-3d {
