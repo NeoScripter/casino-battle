@@ -80,7 +80,7 @@ export class TableHandler {
             const bonusPriceInputResult = parseFloat(bonusPriceInput.value);
 
             if (isNaN(bonusInputResult) || isNaN(betInputResult) || isNaN(bonusPriceInputResult)) return;
-            const result = Math.ceil((bonusInputResult - bonusPriceInputResult) / betInputResult);
+            const result = Math.ceil(bonusInputResult / betInputResult);
 
             this.score = result;
             this.price = Math.ceil(bonusInputResult - betInputResult);
