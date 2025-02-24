@@ -83,6 +83,8 @@ class GameHanlder {
             tableHanlderTwo.showCalculateResult();
             tableHanlderOne.saveParticipantsNames();
             tableHanlderTwo.saveParticipantsNames();
+            tableHanlderOne.hideTotalScoreTable();
+            tableHanlderTwo.hideTotalScoreTable();
             setTimeout(() => {
                 this.showRestartBtn();
                 btn.disabled = false;
@@ -138,7 +140,6 @@ class GameHanlder {
         resultPopupChild.innerHTML = '';
 
         this.memo.forEach((value, key) => {
-            console.log(value, key)
             const clonedKeyContent = template.content.cloneNode(
                 true
             ) as DocumentFragment;
@@ -225,7 +226,7 @@ class GameHanlder {
             console.log(participant, price, percent);
             this.memo.set(
                 participant,
-                Math.floor((price / 100) * percent).toString()
+                Math.ceil((price / 100) * percent).toString()
             );
         }
     }

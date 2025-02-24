@@ -10,6 +10,7 @@ const IDS = {
     BET_INPUT: "bet-team",
     RESULT_TABLE: "table-results-team",
     PARENT_TABLE: "table-parent-team",
+    XDIV: "carousel-winner-team",
 }
 
 export class TableHandler {
@@ -47,6 +48,8 @@ export class TableHandler {
         this.deposits = [false, false, false];
         this.score = null;
         this.price = null;
+        this.showTotalScoreTable();
+        this.hideXScoreDiv();
     }
 
     updateScore() {
@@ -65,41 +68,84 @@ export class TableHandler {
         const calculateBtn = document.getElementById(cIds(IDS.CALCULATE_BTN, "-", this.teamNumber.toString()));
         const bonusInput = document.getElementById(cIds(IDS.BONUS_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
         const betInput = document.getElementById(cIds(IDS.BET_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
-        const percentInput = document.getElementById(cIds(IDS.PERCENT_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
+        const bonusPriceInput = document.getElementById(cIds(IDS.PERCENT_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
 
-        if (calculateBtn == null || bonusInput == null|| betInput == null|| percentInput == null) return;
+        if (calculateBtn == null || bonusInput == null|| betInput == null|| bonusPriceInput == null) return;
 
         calculateBtn.addEventListener('click', () => {
-            if (bonusInput.value == ''|| betInput.value == ''|| percentInput.value == '') return;
+            if (bonusInput.value == ''|| betInput.value == ''|| bonusPriceInput.value == '') return;
 
             const bonusInputResult = parseFloat(bonusInput.value);
             const betInputResult = parseFloat(betInput.value);
-            const percentInputResult = parseFloat(percentInput.value);
+            const bonusPriceInputResult = parseFloat(bonusPriceInput.value);
 
-            if (isNaN(bonusInputResult) || isNaN(betInputResult) || isNaN(percentInputResult)) return;
-            const result = Math.floor((bonusInputResult + betInputResult) / percentInputResult);
+            if (isNaN(bonusInputResult) || isNaN(betInputResult) || isNaN(bonusPriceInputResult)) return;
+            const result = Math.ceil(bonusInputResult / betInputResult);
 
-            const totalScoreSelector = concatenator.getTotalScore(this.teamNumber);
-            const totalScore = document.getElementById(totalScoreSelector) as HTMLDivElement;
-    
-            if (totalScore == null) throw new Error('total score is not found');
-    
-            totalScore.textContent = `X${result}`;
             this.score = result;
-            this.price = bonusInputResult;
+            this.price = Math.ceil((bonusInputResult - bonusPriceInputResult) / betInputResult);
+
+            this.showXScoreDiv(result.toString());
         })
+    }
+
+    showXScoreDiv(content: string) {
+        const totalScore = document.getElementById(cIds(IDS.XDIV, "-", this.teamNumber.toString())) as HTMLDivElement;
+    
+        if (totalScore == null) throw new Error('total score is not found');
+
+        const xDiv = totalScore.querySelector(".text-center");
+
+        if (xDiv == null) throw new Error('xDiv is not found');
+
+        const span = totalScore.querySelector("span");
+
+        if (span == null) throw new Error('span is not found');
+
+        xDiv.classList.remove('hidden');
+        span.textContent = content;
+    }
+
+    hideXScoreDiv() {
+        const totalScore = document.getElementById(cIds(IDS.XDIV, "-", this.teamNumber.toString())) as HTMLDivElement;
+    
+        if (totalScore == null) throw new Error('total score is not found');
+
+        const xDiv = totalScore.querySelector(".text-center");
+
+        if (xDiv == null) throw new Error('xDiv is not found');
+
+        xDiv.classList.add('hidden');
+    }
+
+    hideTotalScoreTable() {
+        const totalScoreSelector = concatenator.getTotalScore(this.teamNumber);
+        const totalScore = document.getElementById(totalScoreSelector) as HTMLDivElement;
+
+        if (totalScore == null) throw new Error('total score is not found');
+
+        totalScore.classList.add('!hidden');
+    }
+
+    showTotalScoreTable() {
+        const totalScoreSelector = concatenator.getTotalScore(this.teamNumber);
+        const totalScore = document.getElementById(totalScoreSelector) as HTMLDivElement;
+
+        if (totalScore == null) throw new Error('total score is not found');
+
+        totalScore.classList.remove('!hidden');
     }
     
     resetCalculateInputFields() {
         const bonusInput = document.getElementById(cIds(IDS.BONUS_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
         const betInput = document.getElementById(cIds(IDS.BET_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
-        const percentInput = document.getElementById(cIds(IDS.PERCENT_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
+        const bonusPriceInput = document.getElementById(cIds(IDS.PERCENT_INPUT, "-", this.teamNumber.toString())) as HTMLInputElement;
 
-        if (bonusInput == null|| betInput == null|| percentInput == null) return;
+        if (bonusInput == null|| betInput == null|| bonusPriceInput == null) return;
 
         bonusInput.value = '';
         betInput.value = '';
-        percentInput.value = '';
+        bonusPriceInput.value = '';
     }
 
     showCalculateResult() {
