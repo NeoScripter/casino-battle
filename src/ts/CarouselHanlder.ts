@@ -180,13 +180,9 @@ export class CarouselHandler {
 
     showWinner() {
         const select = concatenator.getWinnerImgContainer(this.teamNumber);
-        const winnerImgContainer = document.getElementById(select);
+        const winnerImgContainer = accessDomElement(`#${select}`, HTMLDivElement);
 
-        if (winnerImgContainer == null) return;
-
-        const img = winnerImgContainer.querySelector('img');
-
-        if (img == null) return;
+        const img = accessDomElement('img', HTMLImageElement, winnerImgContainer);
 
         const newImgPath = this.getCurrentImagePath();
 
@@ -207,10 +203,7 @@ export class CarouselHandler {
 
     resetDisplay() {
         const select = concatenator.getWinnerImgContainer(this.teamNumber);
-        const winnerImgContainer = document.getElementById(select);
-
-        if (winnerImgContainer == null) return;
-
+        const winnerImgContainer = accessDomElement(`#${select}`, HTMLDivElement);
 
         winnerImgContainer.classList.add('!hidden');
         this.parent?.classList.remove('!hidden');
@@ -221,4 +214,18 @@ export class CarouselHandler {
             this.setupCarousel();
         });
     }
+}
+
+function accessDomElement<T extends Element>(selector: string, expectedElementType: new () => T, parent: HTMLElement = document.body): T {
+    const element = parent.querySelector(selector);
+
+    if (!element) {
+        throw new Error(`Element not found: ${selector}`);
+    }
+
+    if (!(element instanceof expectedElementType)) {
+        throw new Error(`Expected ${expectedElementType.name}, but found ${element.constructor.name}`);
+    }
+
+    return element;
 }
