@@ -86,8 +86,8 @@ class GameHanlder {
             tableHanlderTwo.showCalculateResult();
             tableHanlderOne.saveParticipantsNames();
             tableHanlderTwo.saveParticipantsNames();
-            tableHanlderOne.hideTotalScoreTable();
-            tableHanlderTwo.hideTotalScoreTable();
+      /*       tableHanlderOne.hideTotalScoreTable();
+            tableHanlderTwo.hideTotalScoreTable(); */
             setTimeout(() => {
                 this.showRestartBtn();
                 btn.disabled = false;
