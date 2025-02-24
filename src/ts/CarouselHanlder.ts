@@ -216,7 +216,7 @@ export class CarouselHandler {
     }
 }
 
-function accessDomElement<T extends Element>(selector: string, expectedElementType: new () => T, parent: HTMLElement = document.body): T {
+export function accessDomElement<T extends Element>(selector: string, expectedElementType: new () => T, parent: HTMLElement = document.body): T {
     const element = parent.querySelector(selector);
 
     if (!element) {

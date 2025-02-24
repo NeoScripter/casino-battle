@@ -1,7 +1,7 @@
 export function accessDomElement<T extends Element>(
     selector: string,
     expectedElementType: new () => T,
-    parent: HTMLElement = document.body
+    parent: HTMLElement | DocumentFragment = document.body
 ): T {
     const element = parent.querySelector(selector);
 

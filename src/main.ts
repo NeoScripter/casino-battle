@@ -2,6 +2,7 @@ import './style.css';
 import { TableCreator } from './ts/TableCreator';
 import { CarouselHandler } from './ts/CarouselHanlder';
 import { TableHandler } from './ts/TableHanlder';
+import { SelectorConcatenator } from './ts/SelectorConcatenator';
 
 const IDS = {
     BTN_LAUNCH_CAROUSEL: 'rotate-btn',
@@ -16,6 +17,8 @@ const tableHanlderOne = new TableHandler(1);
 const tableHanlderTwo = new TableHandler(2);
 const carouselHanlderTeamOne = new CarouselHandler(1);
 const carouselHanlderTeamTwo = new CarouselHandler(2);
+
+const concatenator = new SelectorConcatenator();
 
 class GameHanlder {
     public memo: Map<string, string>;
@@ -155,7 +158,7 @@ class GameHanlder {
 
             const valueDiv = clonedValueContent.querySelector('div.text-center');
             if (valueDiv == null) return;
-            valueDiv.textContent = value;
+            valueDiv.textContent = `${value} РУБ.`;
             resultPopupChild.appendChild(clonedValueContent);
         });
 
@@ -202,7 +205,8 @@ class GameHanlder {
                 this.saveWins(
                     tableHanlderOne.price,
                     tableHanlderOne.participants,
-                    tableHanlderOne.percents
+                    tableHanlderOne.percents,
+                    1
                 );
             } else if (tableHanlderOne.score < tableHanlderTwo.score) {
                 containerTeamOne.classList.add('loser');
@@ -211,24 +215,45 @@ class GameHanlder {
                 this.saveWins(
                     tableHanlderTwo.price,
                     tableHanlderTwo.participants,
-                    tableHanlderTwo.percents
+                    tableHanlderTwo.percents,
+                    2
                 );
             }
         }
     }
 
-    saveWins(price: number | null, participants: string[], percents: number[]) {
+    saveWins(price: number | null, participants: string[], percents: number[], teamNumber: number) {
         if (price == null) throw new Error('the price is null');
 
+        const payments = [];
         for (let i = 0; i < 3; i++) {
             const participant = participants[i];
             const percent = percents[i];
-            console.log(participant, price, percent);
+            const payment = Math.ceil((price / 100) * percent);
+            payments.push(payment);
+            
             this.memo.set(
                 participant,
-                Math.ceil((price / 100) * percent).toString()
+                payment.toString()
             );
         }
+
+        tableCreator.populateWinnerTable(teamNumber, payments, percents, participants);
+
+        const totalScoreValue = `Выплата на команду: ${price} РУБ.`;
+        this.showTotalScore(teamNumber, totalScoreValue);
+
+    }
+    
+    showTotalScore(teamNumber: number, value: string) {
+        const totalScoreSelector = concatenator.getTotalScore(teamNumber);
+        const totalScore = document.getElementById(totalScoreSelector) as HTMLDivElement;
+
+        if (totalScore == null) throw new Error('total score is not found');
+
+        totalScore.classList.remove('!hidden');
+        totalScore.classList.add('winner-text');
+        totalScore.textContent = value;
     }
 
     resetWinner() {

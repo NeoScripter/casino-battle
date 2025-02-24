@@ -23,6 +23,14 @@
     @apply grid grid-cols-[1fr_1fr_1fr_0.3fr] border-b border-table-border;
 }
 
+.winner-text {
+    @apply !text-xl;
+}
+
+.winner-cols {
+    @apply grid-cols-[1fr_0.5fr_1fr];
+}
+
 .cell {
     @apply flex items-center justify-center h-15 p-2 border-r border-b border-table-border border-collapse;
 }

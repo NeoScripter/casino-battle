@@ -134,6 +134,7 @@ export class TableHandler {
         if (totalScore == null) throw new Error('total score is not found');
 
         totalScore.classList.remove('!hidden');
+        totalScore.classList.remove('winner-text');
     }
     
     resetCalculateInputFields() {
