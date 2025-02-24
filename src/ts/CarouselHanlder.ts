@@ -1,7 +1,7 @@
 import { PREFIXES, SelectorConcatenator } from './SelectorConcatenator';
 import { cIds } from './TableCreator';
 
-const PATH = '/images/carousel/';
+const PATH = '/public/images/carousel/';
 const IMAGE_NAMES = [
     'bandit',
     'bigbass',
