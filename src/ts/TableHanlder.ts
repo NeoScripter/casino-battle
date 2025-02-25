@@ -83,7 +83,12 @@ export class TableHandler {
             const result = Math.ceil(bonusInputResult / betInputResult);
 
             this.score = result;
-            this.price = Math.ceil(bonusInputResult - bonusPriceInputResult);
+
+            if (bonusInputResult <= bonusPriceInputResult) {
+                this.price = 1500;
+            } else {
+                this.price = Math.ceil(bonusInputResult - bonusPriceInputResult);
+            }
 
             this.showXScoreDiv(result.toString());
         })
